@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.testFunc</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>testFunc</name>
+        <script><![CDATA[var testFunc = Class.create();
+testFunc.prototype = {
+    initialize: function() {},
+
+    canoncalUrl: function(urlPath) {
+        if (urlPath === null || urlPath === undefined || url === '') {
+            return "/";
+        }
+        var value = urlEncodeHandler(urlPath, true);
+        if (!value.startsWith("/")) {
+            value = "/".concat(value);
+        }
+        if (!value.endsWith("/")) {
+            value = value.concat("/");
+        }
+        return value;
+    },
+
+    canonicalQueryString: function(params) {
+        var urlEncodeParams = {};
+        for (var key in params) {
+            gs.info(key + ":" + params[key]);
+            var urlEncodeKey = urlEncodeHandler(key, false);
+            var urlEncodeVal = urlEncodeHandler(params[key], false);
+            urlEncodeParams[urlEncodeKey] = urlEncodeVal;
+        }
+        gs.info("urlEncodeParams before sorted = " + JSON.stringify(urlEncodeParams));
+        var sortedKeys = Object.keys(urlEncodeParams).sort();
+        var sortedParams = {};
+        for (var i = 0; i < sortedKeys.length; i++) {
+            sortedParams[sortedKeys[i]] = urlEncodeParams[sortedKeys[i]];
+        }
+        gs.info("urlEncodeParams after sorted = " + JSON.stringify(sortedParams));
+
+        var result = [];
+        for (var keySt in sortedParams) {
+            if (sortedParams.hasOwnProperty(keySt)) {
+                var values = sortedParams[keySt];
+
+                if (values.length > 0) {
+                    if (result.length > 0) {
+                        result.push("&");
+                    }
+                    result.push(keySt + "=" + values);
+                }
+            }
+        }
+        var resultString = result.join("");
+        gs.info(resultString);
+    },
+	
+    getParams: function(url) {
+        var params = {};
+        var startIndex = url.indexOf('?');
+        if (startIndex >= 0) {
+            var query = url.substring(startIndex + 1);
+            var allItems = query.split("&");
+
+            gs.info(allItems.length);
+
+            allItems.forEach(function(item) {
+                var spl = item.split("=");
+                var key = spl[0];
+                var value = "";
+                if (spl.length > 1) {
+                    value = spl[1];
+                }
+
+                if (key.trim().length !== 0) {
+                    key = decodeURIComponent(key);
+                    value = decodeURIComponent(value);
+                    params[key] = value;
+                }
+            });
+        }
+        return params;
+    },
+
+    urlEncodeHandler: function(value, path) {
+        var encoded = encodeURIComponent(value);
+
+        var pattern = /\+|\*|%7E|%2F/g;
+        var matches;
+        var buffer = [];
+        var lastIndex = 0;
+
+        while ((matches = pattern.exec(encoded)) !== null) {
+            var replacement = matches[0];
+            var replacementValue = replacement;
+
+            if (replacement === "+") {
+                replacementValue = "%20";
+            } else if (replacement === "*") {
+                replacementValue = "%2A";
+            } else if (replacement === "%7E") {
+                replacementValue = "~";
+            } else if (path && replacement === "%2F") {
+                replacementValue = "/";
+            }
+
+            buffer.push(encoded.substring(lastIndex, matches.index) + replacementValue);
+            lastIndex = matches.index + replacement.length;
+        }
+
+        buffer.push(encoded.substring(lastIndex));
+
+        return buffer.join('');
+    },
+
+    type: 'testFunc'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-28 06:16:17</sys_created_on>
+        <sys_id>c12af7e397f03110302fbbc3f153af3c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>testFunc</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_c12af7e397f03110302fbbc3f153af3c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-28 09:20:36</sys_updated_on>
+    </sys_script_include>
+</record_update>

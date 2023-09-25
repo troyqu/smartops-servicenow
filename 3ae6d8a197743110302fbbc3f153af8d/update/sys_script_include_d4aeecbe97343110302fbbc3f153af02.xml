@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.smartopsPoc</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>smartopsPoc</name>
+        <script><![CDATA[var smartopsPoc = Class.create();
+smartopsPoc.prototype = {
+    initialize: function() {},
+
+    createTicket: function() {
+        try {
+			var sign = new signature();
+			var timestamp = sign.getCurrentTimestampMillis();
+// 			var timestamp = "1692955043";
+			var version = "v1";
+			
+			var title = "test_0606_a";
+			var type = "service";
+			var content = "<p>test_0606_a</p>";
+			var category = "advisory";
+			
+			var url = "https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket";
+			var method = "PUT";
+			var host = "testapi.smartops.anchnet.com";
+			var path = "/openapi/tms/tms/ticket/";
+			var content_type_value = "application/json; charset=utf-8";
+			
+			
+            var r = new sn_ws.RESTMessageV2();
+			r.setEndpoint(url);
+			r.setHttpMethod(method);
+			r.setRequestHeader("content-type",content_type_value);
+			r.setRequestHeader("host",host);
+			r.setRequestHeader("X-Timestamp",timestamp);
+			r.setRequestHeader("X-Version",version);
+			
+			
+			var body = "{\"title\":\"${title}\",\"type\":\"${type}\",\"content\":\"${content}\",\"category\":\"${category}\"}";
+			body = body.replace("${title}",title).replace("${type}",type).replace("${content}",content).replace("${category}",category);
+			r.setRequestBody(body);
+			
+			var authorizationHeaderName = "Authorization";
+			var headers = r.getRequestHeaders();
+			
+			
+			gs.info("url="+url);
+			gs.info("method="+method);
+			gs.info("path="+path);
+			gs.info("body="+body);
+			gs.info("headers="+headers);
+			
+			r.setRequestHeader(authorizationHeaderName, this.getAuthorization(url, method, path, body, headers, timestamp));
+
+            //override authentication profile 
+            //authentication type ='basic'/ 'oauth2'
+            //r.setAuthenticationProfile(authentication type, profile name);
+
+            //set a MID server name if one wants to run the message on MID
+            //r.setMIDServer('MY_MID_SERVER');
+
+            //if the message is configured to communicate through ECC queue, either
+            //by setting a MID server or calling executeAsync, one needs to set skip_sensor
+            //to true. Otherwise, one may get an intermittent error that the response body is null
+            //r.setEccParameter('skip_sensor', true);
+
+            var response = r.execute();
+            var responseBody = response.getBody();
+			
+            var jsonBody = JSON.stringify(responseBody);
+			gs.info("ticket create jsonBody="+jsonBody);
+            var httpStatus = response.getStatusCode();
+        } catch (ex) {
+            var message = ex.message;
+        }
+
+        return "createTicket";
+    },
+
+    getAuthorization: function(url, method, path, body, headers, timestamp) {
+        var sign = new signature();
+        var algorithm = "HMAC-SHA256";
+        var date = sign.formatTimestampToDate(timestamp);
+        var appKey = "MWQxNzg1YzQtMmRjNS00";
+        var appSecret = "$2a$10$uAc10tFuW8HPkzPodlS/hevZS3QiGDu0L8Q0RI.HCTZXfnhR2Xqfm";
+
+//         var url = "https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket";
+//         var method = "PUT";
+//         var path = "/openapi/tms/tms/ticket/";
+//         var body = "{\"title\":\"test_0606_a\",\"type\":\"service\",\"content\":\"<p>test_0606_a</p>\",\"category\":\"advisory\"}";
+//         var headers = {
+//             "content-type": "application/json; charset=utf-8"
+//         };
+
+        var httpRequest = {};
+        httpRequest.url = url;
+        httpRequest.method = method;
+        httpRequest.path = path;
+        httpRequest.body = body;
+        httpRequest.headers = headers;
+
+		var signedHeaders = sign.signedHeaders().join(";");
+		
+        var hashedPayload = sign.sha256Hex(httpRequest.body);
+        gs.info("-------hashedPayload-------" + hashedPayload);
+		
+        var canonicalRequest = sign.createCanonicalRequest(httpRequest, signedHeaders, hashedPayload);
+        gs.info("-------canonicalRequest-------" + canonicalRequest);
+
+        var hashedCanonicalRequest = sign.sha256Hex(canonicalRequest);
+        var stringToSign = sign.createStringToSign(algorithm, hashedCanonicalRequest, timestamp);
+        gs.info("-------stringToSign-------" + stringToSign);
+
+        var signaturedRequest = sign.computeSignature(stringToSign, appSecret, date);
+        gs.info("-------signature-------" + signaturedRequest);
+
+        var authorization = sign.buildAuthorizationHeader(algorithm, signedHeaders, signaturedRequest, appKey);
+        gs.info("-------authorization-------" + authorization);
+        return authorization;
+    },
+
+    type: 'smartopsPoc'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-25 07:30:48</sys_created_on>
+        <sys_id>d4aeecbe97343110302fbbc3f153af02</sys_id>
+        <sys_mod_count>29</sys_mod_count>
+        <sys_name>smartopsPoc</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_d4aeecbe97343110302fbbc3f153af02</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-28 09:44:57</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.signature</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>signature</name>
+        <script><![CDATA[var signature = Class.create();
+
+signature.prototype = {
+    initialize: function() {},
+	
+    sha256Hex: function(input) {
+        var digest = new GlideDigest().getSHA256Hex(input, 'SHA-256');
+        return digest.toLowerCase();
+    },
+	
+//返回lang型时间戳
+	getCurrentTimestampMillis: function () {
+		var currentTimeMillis = new Date().getTime();
+		var timestampInSeconds = Math.floor(currentTimeMillis / 1000);
+		return String(timestampInSeconds);
+	},
+
+	formatTimestampToDate: function(timestampMillis) {
+		function padZero(num) {
+			return num < 10 ? '0' + num : num.toString();
+		}
+
+		var date = new Date(timestampMillis * 1000); // Convert seconds to milliseconds
+		var year = date.getUTCFullYear();
+		var month = padZero(date.getUTCMonth() + 1);
+		var day = padZero(date.getUTCDate());
+
+		return year + '-' + month + '-' + day;
+	},
+
+// 	HttpRequest: function(method, url, path, headers, body) {
+// 		this.method = method;
+// 		this.path = path;
+// 		// this.host = host;
+// 		this.uri = url;
+// 		// this.query = query;
+// 		this.headers = headers || {};
+// 		this.body = body;
+// 	},
+
+	signedHeaders: function() {
+		var a = ['content-type', 'host'];
+		a.sort();
+		return a;
+	},
+	
+    canoncalUrlHandler: function(urlPath) {
+		gs.info("urlPath="+urlPath);
+        if (urlPath === null || urlPath === undefined || urlPath === '') {
+            return "/";
+        }
+        var value = this.urlEncodeHandler(urlPath, true);
+		gs.info("urlPath value="+value);
+		
+        if (!value.startsWith("/")) {
+            value = "/".concat(value);
+        }
+        if (!value.endsWith("/")) {
+            value = value.concat("/");
+        }
+        return value;
+    },
+
+    canonicalQueryStringHandler: function(params) {
+        var urlEncodeParams = {};
+        for (var key in params) {
+            gs.info(key + ":" + params[key]);
+            var urlEncodeKey = this.urlEncodeHandler(key, false);
+            var urlEncodeVal = this.urlEncodeHandler(params[key], false);
+            urlEncodeParams[urlEncodeKey] = urlEncodeVal;
+        }
+        gs.info("urlEncodeParams before sorted = " + JSON.stringify(urlEncodeParams));
+        var sortedKeys = Object.keys(urlEncodeParams).sort();
+        var sortedParams = {};
+        for (var i = 0; i < sortedKeys.length; i++) {
+            sortedParams[sortedKeys[i]] = urlEncodeParams[sortedKeys[i]];
+        }
+        gs.info("urlEncodeParams after sorted = " + JSON.stringify(sortedParams));
+
+        var result = [];
+        for (var keySt in sortedParams) {
+            if (sortedParams.hasOwnProperty(keySt)) {
+                var values = sortedParams[keySt];
+
+                if (values.length > 0) {
+                    if (result.length > 0) {
+                        result.push("&");
+                    }
+                    result.push(keySt + "=" + values);
+                }
+            }
+        }
+        var resultString = result.join("");
+        gs.info(resultString);
+		return resultString;
+    },
+	
+    getParams: function(url) {
+        var params = {};
+        var startIndex = url.indexOf('?');
+		gs.info("startIndex="+startIndex);
+        if (startIndex >= 0) {
+            var query = url.substring(startIndex + 1);
+            var allItems = query.split("&");
+
+            gs.info(allItems.length);
+
+            allItems.forEach(function(item) {
+                var spl = item.split("=");
+                var key = spl[0];
+                var value = "";
+                if (spl.length > 1) {
+                    value = spl[1];
+                }
+
+                if (key.trim().length !== 0) {
+                    key = decodeURIComponent(key);
+                    value = decodeURIComponent(value);
+                    params[key] = value;
+                }
+            });
+        }
+        return params;
+    },
+
+    urlEncodeHandler: function(value, path) {
+		gs.info("value:path="+value +"="+path);
+        var encoded = encodeURIComponent(value);
+		gs.info("encoded value="+encoded);
+
+        var pattern = /\+|\*|%7E|%2F/g;
+        var matches;
+        var buffer = [];
+        var lastIndex = 0;
+
+        while ((matches = pattern.exec(encoded)) !== null) {
+            var replacement = matches[0];
+            var replacementValue = replacement;
+
+            if (replacement === "+") {
+                replacementValue = "%20";
+            } else if (replacement === "*") {
+                replacementValue = "%2A";
+            } else if (replacement === "%7E") {
+                replacementValue = "~";
+            } else if (path && replacement === "%2F") {
+                replacementValue = "/";
+            }
+
+            buffer.push(encoded.substring(lastIndex, matches.index) + replacementValue);
+            lastIndex = matches.index + replacement.length;
+        }
+
+        buffer.push(encoded.substring(lastIndex));
+
+        return buffer.join('');
+    },	
+
+	//1.根据request请求构造签名参数
+	createCanonicalRequest: function(request, signedHeader, hashedRequestPayload){
+		var canonicalHeaders = "content-type:" + request.headers['content-type'] + "\n" + "host:" + request.headers['host'] + "\n";
+		var canonicalUrl = this.canoncalUrlHandler(request.path);
+		gs.info("canonicalUrl="+canonicalUrl);
+		
+		
+		var urlParams = this.getParams(request.url);
+		gs.info("urlParams="+urlParams);
+		gs.info("urlParams json ="+JSON.stringify(urlParams));
+		var canonicalQueryString = this.canonicalQueryStringHandler(urlParams);
+		gs.info("canonicalQueryString="+canonicalQueryString);
+		
+		var canonicalRequest = request.method.toUpperCase()+ "\n" + canonicalUrl + "\n" + canonicalQueryString + "\n" + canonicalHeaders + "\n" + signedHeader + "\n" + hashedRequestPayload;
+		return canonicalRequest;
+	},
+
+	//2.拼接签名字符串
+	createStringToSign: function(algorithm, hashedCanonicalRequest, timestamp){
+		var stringToSign = algorithm + "\n" + timestamp + "\n" + hashedCanonicalRequest;
+		return stringToSign;
+	},
+
+	//3.计算签名
+	computeSignature: function(stringToSign, secretKey, date){
+		var base64Secret = gs.base64Encode(secretKey);
+		var mac = new CertificateEncryption();
+		var base64HmacSecret = mac.generateMac(base64Secret, "HmacSHA256", date);
+// 		gs.info("1.secret base64 hmac result="+base64HmacSecret);
+		
+		var sign = mac.generateMac(base64HmacSecret, "HmacSHA256", stringToSign);
+// 		gs.info("2.sign base64 hmac result="+sign);
+		
+		var hexHmacSign = this.base64ToHex(sign);
+// 		gs.info("3.sign hex hmac result="+hexHmacSign);
+		return hexHmacSign;
+	},
+
+	//4.拼接Authorization
+	buildAuthorizationHeader: function(algorithm, signedHeaders,  signature,  secretId){
+		return algorithm + " "
+			+ "Credential=" + secretId + ", "
+			+ "SignedHeaders=" + signedHeaders + ", "
+			+ "Signature=" + signature;
+	},
+	
+	base64ToHex: function(encoded) {
+		var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+		encoded = encoded.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+        while (i < encoded.length) {
+			enc1 = keyStr.indexOf(encoded.charAt(i++));
+            enc2 = keyStr.indexOf(encoded.charAt(i++));
+            enc3 = keyStr.indexOf(encoded.charAt(i++));
+            enc4 = keyStr.indexOf(encoded.charAt(i++));
+
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+
+            output += String.fromCharCode(chr1);
+
+            if (enc3 !== 64) {
+                output += String.fromCharCode(chr2);
+            }
+            if (enc4 !== 64) {
+                output += String.fromCharCode(chr3);
+            }
+		}
+
+            // 将 URI 编码的结果转换为十六进制
+        var hexResult = "";
+        for (var j = 0; j < output.length; j++) {
+			var hexChar = output.charCodeAt(j).toString(16);
+            hexResult += hexChar.length === 1 ? "0" + hexChar : hexChar;
+        }
+            return hexResult;
+        },	
+	
+
+	type: 'signature'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-22 02:56:10</sys_created_on>
+        <sys_id>3bd19c7197303110302fbbc3f153afaf</sys_id>
+        <sys_mod_count>32</sys_mod_count>
+        <sys_name>signature</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_3bd19c7197303110302fbbc3f153afaf</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-28 10:05:16</sys_updated_on>
+    </sys_script_include>
+</record_update>

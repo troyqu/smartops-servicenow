@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>GET</http_method>
+        <name>incident</name>
+        <operation_script><![CDATA[(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+    // implement resource here
+    // implement resource here
+    var params = request.queryParams;
+    var incidentNum = params.number;
+    var table = 'incident',
+        record_limit = 100,
+        result_arr = [],
+        gr = new GlideRecord(table);
+
+    gr.setLimit(record_limit);
+    gr.addQuery("number", incidentNum);
+    gr.query();
+
+
+    //  iterate over incident records and build JSON representations to be streamed out.
+    while (gr.next()) {
+        var incidentObj = {};
+
+        incidentObj.number = gr.number.toString() + '';
+        incidentObj.user = gr.caller_id.user_name.toString() + '';
+        incidentObj.category = gr.category.toString() + '';
+        incidentObj.short_description = gr.short_description.toString() + '';
+		incidentObj.description = gr.description.toString() + '';
+
+        result_arr.push(incidentObj);
+        //         result_arr.push(JSON.stringify(gr));
+    }
+
+    return result_arr;
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_1106755_smartops/smartopspocapismartopspocapi/incident</operation_uri>
+        <produces>application/json</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/incident</relative_path>
+        <request_example/>
+        <requires_acl_authorization>false</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-28 10:37:39</sys_created_on>
+        <sys_id>9285b8bf97b43110302fbbc3f153af17</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>incident</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_ws_operation_9285b8bf97b43110302fbbc3f153af17</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-29 01:53:39</sys_updated_on>
+        <web_service_definition display_value="smartopsPocApi">349d013e97b43110302fbbc3f153af8d</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

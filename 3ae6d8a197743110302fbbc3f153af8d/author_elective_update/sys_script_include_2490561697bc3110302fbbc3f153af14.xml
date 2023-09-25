@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.signature123</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>signature123</name>
+        <script><![CDATA[var signature123 = Class.create();
+
+signature123.prototype = {
+    initialize: function() {},
+
+    // Function to compute SHA256 hash and return hexadecimal encoded lowercase value
+    sha256Hex: function(input) {
+        var digest = new GlideDigest().getSHA256Hex(input, 'SHA-256');
+        return digest.toLowerCase();
+    },
+	
+	hmacsha256: function(stringToSign, key, date){
+		var base64Secret = gs.base64Encode(key);
+		var mac = new CertificateEncryption();
+		var base64HmacSecret = mac.generateMac(base64Secret, "HmacSHA256", date);
+// 		gs.info("1.secret base64 hmac result="+base64HmacSecret);
+		
+		var sign = mac.generateMac(base64HmacSecret, "HmacSHA256", stringToSign);
+// 		gs.info("2.sign base64 hmac result="+sign);
+		
+		
+		var hexHmacSign = this.base64ToHex(sign);
+// 		gs.info("3.sign hex hmac result="+hexHmacSign);
+	
+		return hexHmacSign;
+	},
+	
+	base64ToHex: function(encoded) {
+		var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+		encoded = encoded.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+        while (i < encoded.length) {
+			enc1 = keyStr.indexOf(encoded.charAt(i++));
+            enc2 = keyStr.indexOf(encoded.charAt(i++));
+            enc3 = keyStr.indexOf(encoded.charAt(i++));
+            enc4 = keyStr.indexOf(encoded.charAt(i++));
+
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+
+            output += String.fromCharCode(chr1);
+
+            if (enc3 !== 64) {
+                output += String.fromCharCode(chr2);
+            }
+            if (enc4 !== 64) {
+                output += String.fromCharCode(chr3);
+            }
+		}
+
+            // 将 URI 编码的结果转换为十六进制
+        var hexResult = "";
+        for (var j = 0; j < output.length; j++) {
+			var hexChar = output.charCodeAt(j).toString(16);
+            hexResult += hexChar.length === 1 ? "0" + hexChar : hexChar;
+        }
+            return hexResult;
+        },
+	
+	formatTimestampToDate: function (timestampMillis) {
+            function padZero(num) {
+                return num < 10 ? '0' + num : num.toString();
+            }
+
+            var date = new Date(timestampMillis * 1000); // Convert seconds to milliseconds
+            var year = date.getUTCFullYear();
+            var month = padZero(date.getUTCMonth() + 1);
+            var day = padZero(date.getUTCDate());
+
+            return year + '-' + month + '-' + day;
+        },
+	
+    type: 'signature123'
+};
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-24 01:35:15</sys_created_on>
+        <sys_id>2490561697bc3110302fbbc3f153af14</sys_id>
+        <sys_mod_count>65</sys_mod_count>
+        <sys_name>signature123</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_2490561697bc3110302fbbc3f153af14</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:16:43</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</application>
+        <file_path/>
+        <instance_id>aa323c4adba7a8105749cac50596190a</instance_id>
+        <instance_name>dev112116</instance_name>
+        <name>sys_script_include_2490561697bc3110302fbbc3f153af14</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1106755_smartops.signature123&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;signature123&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var signature123 = Class.create();
+
+signature123.prototype = {
+    initialize: function() {},
+
+    // Function to compute SHA256 hash and return hexadecimal encoded lowercase value
+    sha256Hex: function(input) {
+        var digest = new GlideDigest().getSHA256Hex(input, 'SHA-256');
+        return digest.toLowerCase();
+    },
+	
+	hmacsha256: function(stringToSign, key, date){
+		var base64Secret = gs.base64Encode(key);
+		var mac = new CertificateEncryption();
+		var base64HmacSecret = mac.generateMac(base64Secret, "HmacSHA256", date);
+// 		gs.info("1.secret base64 hmac result="+base64HmacSecret);
+		
+		var sign = mac.generateMac(base64HmacSecret, "HmacSHA256", stringToSign);
+// 		gs.info("2.sign base64 hmac result="+sign);
+		
+		
+		var hexHmacSign = this.base64ToHex(sign);
+// 		gs.info("3.sign hex hmac result="+hexHmacSign);
+	
+		return hexHmacSign;
+	},
+	
+	base64ToHex: function(encoded) {
+		var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+		encoded = encoded.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+        while (i &lt; encoded.length) {
+			enc1 = keyStr.indexOf(encoded.charAt(i++));
+            enc2 = keyStr.indexOf(encoded.charAt(i++));
+            enc3 = keyStr.indexOf(encoded.charAt(i++));
+            enc4 = keyStr.indexOf(encoded.charAt(i++));
+
+            chr1 = (enc1 &lt;&lt; 2) | (enc2 &gt;&gt; 4);
+            chr2 = ((enc2 &amp; 15) &lt;&lt; 4) | (enc3 &gt;&gt; 2);
+            chr3 = ((enc3 &amp; 3) &lt;&lt; 6) | enc4;
+
+            output += String.fromCharCode(chr1);
+
+            if (enc3 !== 64) {
+                output += String.fromCharCode(chr2);
+            }
+            if (enc4 !== 64) {
+                output += String.fromCharCode(chr3);
+            }
+		}
+
+            // 将 URI 编码的结果转换为十六进制
+        var hexResult = "";
+        for (var j = 0; j &lt; output.length; j++) {
+			var hexChar = output.charCodeAt(j).toString(16);
+            hexResult += hexChar.length === 1 ? "0" + hexChar : hexChar;
+        }
+            return hexResult;
+        },
+	
+	formatTimestampToDate: function (timestampMillis) {
+            function padZero(num) {
+                return num &lt; 10 ? '0' + num : num.toString();
+            }
+
+            var date = new Date(timestampMillis * 1000); // Convert seconds to milliseconds
+            var year = date.getUTCFullYear();
+            var month = padZero(date.getUTCMonth() + 1);
+            var day = padZero(date.getUTCDate());
+
+            return year + '-' + month + '-' + day;
+        },
+	
+    type: 'signature123'
+};
+
+]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-08-24 01:35:15&lt;/sys_created_on&gt;&lt;sys_id&gt;2490561697bc3110302fbbc3f153af14&lt;/sys_id&gt;&lt;sys_mod_count&gt;65&lt;/sys_mod_count&gt;&lt;sys_name&gt;signature123&lt;/sys_name&gt;&lt;sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="smartopspoc-scoped"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_2490561697bc3110302fbbc3f153af14&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-08-25 07:16:43&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1538082164</payload_hash>
+        <record_name>signature123</record_name>
+        <reverted_from/>
+        <source>f2e6d8a197743110302fbbc3f153af8f</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-25 07:16:43</sys_created_on>
+        <sys_id>6c7b243e97343110302fbbc3f153affa</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18a2b8d6e3e0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:16:43</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>a47b243e1c3431101212fe681ee2cafa</update_guid>
+        <update_guid_history>a47b243e1c3431101212fe681ee2cafa:-1538082164,7322fba6b17031103838ac29ccb63f23:-1889305908,a5107f26a87031106b5e3cc697636212:1111651854,89cee326d770311030a4a7783d652c6e:-1662567868,a3fd2be273703110bcd42695607eca10:1034573175,b1edef225d7031101a6cd1126e977beb:1902055673,8fd7ef6e8b3031106c4231286963f725:816619969,83d5e32e5f303110f3f2952863416a06:215054399,41852bea0c303110587451dd61a5fdd5:678729009,4b056faa8b303110c4abe346bb26790d:215054399,aac4a3ea5630311082d308e18c8d1303:29107980,fce2a76a103031107b554a5362f24851:1295849424,9681e7a2a33031100b20ac0802cfd90f:-1442957279,58e0e7a2ff303110db1fd42afb82690b:-1108218438,351f5f66e5303110e1555a84b7f641b9:-1215168247,3ec3182e0374711003fd8f8fac1e776c:-1951712433,92f09c6a1174711059f9d17d6eb56d09:-1922759444,3cd0146a51747110d660a84ad8de1279:-453257012,a640d06a07747110986b79d963cae22e:-1306948749,003fc4a27f74711070090955d59bc28c:-1311287187,3df980eea4347110f8cd1b5965b3606e:1638849377,ca05046a2434711087da0ddd4d23a2af:1417847889,c83ffb5aad34711045d18aa31d8c01e1:-571060536,59be331ac534711028d790c3c6f913b0:1332661306,3d7efbd63534711046b5ca391d5c5df1:620004402,461d7396ab347110e5a1251bf011d53d:163815103,47cc3bd6be347110fd9ad3eb5e38a62c:282430031,adfbb396bb347110c2adf14a916f4f21:-897386367,c72b3f56d0347110bc6e9ee00994a735:2052575703,d2ca3f525b347110e694204d7dbe3db7:-1842779603,111c271afbf071105621c562eb12219b:-2075608369,25cb271a7cf07110862971a801ef0f93:-934277128,578b231a49f071105ebe2684d60cfdbe:1331217186,fde927961ff071107a2ca66b987868cf:1597946534,de79a39629f0711018217973507cc385:-1926615520,52592b5e9bb071107ba792096cf6afd2:375186740,bf26ef92dff071105a41132591fea903:1891818101,b4612f5efeb07110206f2e1c1f03d323:-531718468,3c21a35eb6b0711089fd366f0030c331:284111255,03e0235e3bb071105670bcfaef320552:-909987881,69a0e31e05b071109e89753e64cb550b:-1193870215,38202b1eefb071108f4c9a4fb8fc50b2:1641918537,d4cf9fda06b0711039e1ad56279d97b5:424112377,df6c229ea1fc3110b50947ad8e4c45fb:-650512803,26cbea9a24fc311010bc265cf439cc23:1422347859,ae79ea9a34fc3110dfcb373af51c9b8c:862489712,1098a21a61fc31104354e1ac67760185:1794390797,b027e25aadfc3110ec04cd285b384efa:-137309993,9d46a61a72fc3110c60a146596d6e3e6:260427822,06f5ae16f7fc3110d19e542e63bee6a0:349089018,3fc5eed697fc3110c2e4fb6c8e09cac3:-6522685,07b2221618fc31105bef7620f2dfe528:-112203569,d902eed22dfc3110b2edd9d3b3f5aa04:-1440089911,297126d2a7fc3110d87a1151603e2426:1196383,f8c0e21211fc3110594fe76aefe1ac05:-1242616687,503d521221fc3110906a2b0ff5435b34:-1571691985,60cc929e1fbc3110a9a0633c1775f789:902540561,536c5e5e84bc311045180614baeb502d:-1955724421,acea9a5e1cbc3110c0e88c4e211ba4cf:1092263580,921a16daf9bc3110ca0f6b86c354e2a7:1600293154,dd089e9a19bc31101eb22f1ec4b09335:-762820859,b727d69adabc31104bf6280966f94777:-514510614,ef07da1a87bc31103388dab83fc7279a:1605530425,e4d61a5a40bc31107c2192c8b9c8e5c1:-1924914088,2525ded64cbc31109f6e63e9b393516a:1773778458,b4b352d6ecbc31103c60c86ffb255c34:-1915214154</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-25 09:28:48</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>29a46aec279846249fa915482f3d1d90</sys_id>
+        <sys_metadata>2490561697bc3110302fbbc3f153af14</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>signature123</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_scope_delete display_value="">826394e5e8de461084e9d5a4e6c40844</sys_scope_delete>
+        <sys_update_name>sys_script_include_2490561697bc3110302fbbc3f153af14</sys_update_name>
+        <sys_update_version display_value="sys_script_include_2490561697bc3110302fbbc3f153af14">6c7b243e97343110302fbbc3f153affa</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 09:28:48</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
