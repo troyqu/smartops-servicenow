@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.testFunc</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>testFunc</name>
+        <script><![CDATA[var testFunc = Class.create();
+testFunc.prototype = {
+    initialize: function() {},
+
+    canoncalUrl: function(urlPath) {
+        if (urlPath === null || urlPath === undefined || url === '') {
+            return "/";
+        }
+        var value = urlEncodeHandler(urlPath, true);
+        if (!value.startsWith("/")) {
+            value = "/".concat(value);
+        }
+        if (!value.endsWith("/")) {
+            value = value.concat("/");
+        }
+        return value;
+    },
+
+    canonicalQueryString: function(params) {
+        var urlEncodeParams = {};
+        for (var key in params) {
+            gs.info(key + ":" + params[key]);
+            var urlEncodeKey = urlEncodeHandler(key, false);
+            var urlEncodeVal = urlEncodeHandler(params[key], false);
+            urlEncodeParams[urlEncodeKey] = urlEncodeVal;
+        }
+        gs.info("urlEncodeParams before sorted = " + JSON.stringify(urlEncodeParams));
+        var sortedKeys = Object.keys(urlEncodeParams).sort();
+        var sortedParams = {};
+        for (var i = 0; i < sortedKeys.length; i++) {
+            sortedParams[sortedKeys[i]] = urlEncodeParams[sortedKeys[i]];
+        }
+        gs.info("urlEncodeParams after sorted = " + JSON.stringify(sortedParams));
+
+        var result = [];
+        for (var keySt in sortedParams) {
+            if (sortedParams.hasOwnProperty(keySt)) {
+                var values = sortedParams[keySt];
+
+                if (values.length > 0) {
+                    if (result.length > 0) {
+                        result.push("&");
+                    }
+                    result.push(keySt + "=" + values);
+                }
+            }
+        }
+        var resultString = result.join("");
+        gs.info(resultString);
+    },
+	
+    getParams: function(url) {
+        var params = {};
+        var startIndex = url.indexOf('?');
+        if (startIndex >= 0) {
+            var query = url.substring(startIndex + 1);
+            var allItems = query.split("&");
+
+            gs.info(allItems.length);
+
+            allItems.forEach(function(item) {
+                var spl = item.split("=");
+                var key = spl[0];
+                var value = "";
+                if (spl.length > 1) {
+                    value = spl[1];
+                }
+
+                if (key.trim().length !== 0) {
+                    key = decodeURIComponent(key);
+                    value = decodeURIComponent(value);
+                    params[key] = value;
+                }
+            });
+        }
+        return params;
+    },
+
+    urlEncodeHandler: function(value, path) {
+        var encoded = encodeURIComponent(value);
+
+        var pattern = /\+|\*|%7E|%2F/g;
+        var matches;
+        var buffer = [];
+        var lastIndex = 0;
+
+        while ((matches = pattern.exec(encoded)) !== null) {
+            var replacement = matches[0];
+            var replacementValue = replacement;
+
+            if (replacement === "+") {
+                replacementValue = "%20";
+            } else if (replacement === "*") {
+                replacementValue = "%2A";
+            } else if (replacement === "%7E") {
+                replacementValue = "~";
+            } else if (path && replacement === "%2F") {
+                replacementValue = "/";
+            }
+
+            buffer.push(encoded.substring(lastIndex, matches.index) + replacementValue);
+            lastIndex = matches.index + replacement.length;
+        }
+
+        buffer.push(encoded.substring(lastIndex));
+
+        return buffer.join('');
+    },
+
+    type: 'testFunc'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-28 06:16:17</sys_created_on>
+        <sys_id>c12af7e397f03110302fbbc3f153af3c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>testFunc</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_c12af7e397f03110302fbbc3f153af3c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-28 09:20:36</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</application>
+        <file_path/>
+        <instance_id>aa323c4adba7a8105749cac50596190a</instance_id>
+        <instance_name>dev112116</instance_name>
+        <name>sys_script_include_c12af7e397f03110302fbbc3f153af3c</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1106755_smartops.testFunc&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;testFunc&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var testFunc = Class.create();
+testFunc.prototype = {
+    initialize: function() {},
+
+    canoncalUrl: function(urlPath) {
+        if (urlPath === null || urlPath === undefined || url === '') {
+            return "/";
+        }
+        var value = urlEncodeHandler(urlPath, true);
+        if (!value.startsWith("/")) {
+            value = "/".concat(value);
+        }
+        if (!value.endsWith("/")) {
+            value = value.concat("/");
+        }
+        return value;
+    },
+
+    canonicalQueryString: function(params) {
+        var urlEncodeParams = {};
+        for (var key in params) {
+            gs.info(key + ":" + params[key]);
+            var urlEncodeKey = urlEncodeHandler(key, false);
+            var urlEncodeVal = urlEncodeHandler(params[key], false);
+            urlEncodeParams[urlEncodeKey] = urlEncodeVal;
+        }
+        gs.info("urlEncodeParams before sorted = " + JSON.stringify(urlEncodeParams));
+        var sortedKeys = Object.keys(urlEncodeParams).sort();
+        var sortedParams = {};
+        for (var i = 0; i &lt; sortedKeys.length; i++) {
+            sortedParams[sortedKeys[i]] = urlEncodeParams[sortedKeys[i]];
+        }
+        gs.info("urlEncodeParams after sorted = " + JSON.stringify(sortedParams));
+
+        var result = [];
+        for (var keySt in sortedParams) {
+            if (sortedParams.hasOwnProperty(keySt)) {
+                var values = sortedParams[keySt];
+
+                if (values.length &gt; 0) {
+                    if (result.length &gt; 0) {
+                        result.push("&amp;");
+                    }
+                    result.push(keySt + "=" + values);
+                }
+            }
+        }
+        var resultString = result.join("");
+        gs.info(resultString);
+    },
+	
+    getParams: function(url) {
+        var params = {};
+        var startIndex = url.indexOf('?');
+        if (startIndex &gt;= 0) {
+            var query = url.substring(startIndex + 1);
+            var allItems = query.split("&amp;");
+
+            gs.info(allItems.length);
+
+            allItems.forEach(function(item) {
+                var spl = item.split("=");
+                var key = spl[0];
+                var value = "";
+                if (spl.length &gt; 1) {
+                    value = spl[1];
+                }
+
+                if (key.trim().length !== 0) {
+                    key = decodeURIComponent(key);
+                    value = decodeURIComponent(value);
+                    params[key] = value;
+                }
+            });
+        }
+        return params;
+    },
+
+    urlEncodeHandler: function(value, path) {
+        var encoded = encodeURIComponent(value);
+
+        var pattern = /\+|\*|%7E|%2F/g;
+        var matches;
+        var buffer = [];
+        var lastIndex = 0;
+
+        while ((matches = pattern.exec(encoded)) !== null) {
+            var replacement = matches[0];
+            var replacementValue = replacement;
+
+            if (replacement === "+") {
+                replacementValue = "%20";
+            } else if (replacement === "*") {
+                replacementValue = "%2A";
+            } else if (replacement === "%7E") {
+                replacementValue = "~";
+            } else if (path &amp;&amp; replacement === "%2F") {
+                replacementValue = "/";
+            }
+
+            buffer.push(encoded.substring(lastIndex, matches.index) + replacementValue);
+            lastIndex = matches.index + replacement.length;
+        }
+
+        buffer.push(encoded.substring(lastIndex));
+
+        return buffer.join('');
+    },
+
+    type: 'testFunc'
+};]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-08-28 06:16:17&lt;/sys_created_on&gt;&lt;sys_id&gt;c12af7e397f03110302fbbc3f153af3c&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;testFunc&lt;/sys_name&gt;&lt;sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="smartopspoc-scoped"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_c12af7e397f03110302fbbc3f153af3c&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-08-28 09:20:36&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1251130493</payload_hash>
+        <record_name>testFunc</record_name>
+        <reverted_from/>
+        <source>f2e6d8a197743110302fbbc3f153af8f</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-28 09:20:36</sys_created_on>
+        <sys_id>549468bf97743110302fbbc3f153af6b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18a3b71ec260000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-28 09:20:36</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>5c9468bf8a74311082d90bc99cfd2f6a</update_guid>
+        <update_guid_history>5c9468bf8a74311082d90bc99cfd2f6a:-1251130493,424b776b46f0311085d80385c3802461:883974267,286ab3a3a7f031101f4028e20a0dda50:278524559</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-25 03:06:17</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>3a12d6e0cca0479b8c1694e2e1c2a201</sys_id>
+        <sys_metadata>c12af7e397f03110302fbbc3f153af3c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>testFunc</sys_name>
+        <sys_package display_value="smartops-servicenow-poc" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_scope_delete display_value="">826394e5e8de461084e9d5a4e6c40844</sys_scope_delete>
+        <sys_update_name>sys_script_include_c12af7e397f03110302fbbc3f153af3c</sys_update_name>
+        <sys_update_version display_value="sys_script_include_c12af7e397f03110302fbbc3f153af3c">549468bf97743110302fbbc3f153af6b</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-25 03:06:17</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

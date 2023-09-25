@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user>admin</basic_auth_user>
+        <content>{&#13;
+    "title": "${title}",&#13;
+    "type": "${type}",&#13;
+    "content":"${content}",&#13;
+    "category":"${category}"&#13;
+}</content>
+        <function_name>PUT</function_name>
+        <http_method>put</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>opsPocApi [ PUT ]</qualified_name>
+        <rest_endpoint>https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket</rest_endpoint>
+        <rest_message display_value="opsPocApi">46ea94e597743110302fbbc3f153af56</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-21 09:01:51</sys_created_on>
+        <sys_id>921bd06597743110302fbbc3f153afb0</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>PUT</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_rest_message_fn_921bd06597743110302fbbc3f153afb0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:49:54</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>

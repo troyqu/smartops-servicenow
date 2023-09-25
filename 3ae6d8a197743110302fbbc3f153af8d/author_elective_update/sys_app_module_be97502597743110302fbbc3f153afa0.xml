@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="DELETE">
+        <active>true</active>
+        <application/>
+        <assessment/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>Open - Unassigned</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>incident</name>
+        <order>4</order>
+        <override_menu_roles>false</override_menu_roles>
+        <query>active=true^assigned_toISEMPTY^EQ</query>
+        <report/>
+        <roles/>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-21 08:37:39</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>be97502597743110302fbbc3f153afa0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Open - Unassigned</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="smartops-servicenow-poc" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_app_module_be97502597743110302fbbc3f153afa0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-21 08:37:39</sys_updated_on>
+        <timeline_page/>
+        <title>Open - Unassigned</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</application>
+        <file_path/>
+        <instance_id>aa323c4adba7a8105749cac50596190a</instance_id>
+        <instance_name>dev112116</instance_name>
+        <name>sys_app_module_be97502597743110302fbbc3f153afa0</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module"><sys_app_module action="INSERT_OR_UPDATE"><active>true</active><application/><assessment/><device_type/><filter/><hint/><homepage/><image/><link_type>LIST</link_type><map_page/><mobile_title>Open - Unassigned</mobile_title><mobile_view_name>Mobile</mobile_view_name><name>incident</name><order>4</order><override_menu_roles>false</override_menu_roles><query>active=true^assigned_toISEMPTY^EQ</query><report/><roles/><sys_class_name>sys_app_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2023-08-21 08:37:39</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>be97502597743110302fbbc3f153afa0</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Open - Unassigned</sys_name><sys_overrides/><sys_package display_value="smartops-servicenow-poc" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package><sys_policy/><sys_scope display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</sys_scope><sys_update_name>sys_app_module_be97502597743110302fbbc3f153afa0</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2023-08-21 08:37:39</sys_updated_on><timeline_page/><title>Open - Unassigned</title><uncancelable>false</uncancelable><view_name/><window_name/></sys_app_module></record_update>]]></payload>
+        <payload_hash>-106569400</payload_hash>
+        <record_name>Open - Unassigned</record_name>
+        <reverted_from/>
+        <source>09359b2497213110302fbbc3f153af1e</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-25 03:09:36</sys_created_on>
+        <sys_id>f22c9b2097613110302fbbc3f153af95</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18aca50543b0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-25 03:09:36</sys_updated_on>
+        <type>Module</type>
+        <update_guid>322c9b2015613110fa60e58815d60e95</update_guid>
+        <update_guid_history>322c9b2015613110fa60e58815d60e95:0,b2975025347431106e1458af2f4d65a2:-521764305</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Open - Unassigned">0e5c9f2097613110302fbbc3f153af54</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-09-25 03:10:22</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_module">sys_app_module</sys_db_object>
+        <sys_id>013b73c37cf744e6801c44550e5cbf21</sys_id>
+        <sys_metadata>be97502597743110302fbbc3f153afa0</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Open - Unassigned</sys_name>
+        <sys_package display_value="smartops-servicenow-poc" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="smartops-servicenow-poc">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_scope_delete display_value="">826394e5e8de461084e9d5a4e6c40844</sys_scope_delete>
+        <sys_update_name>sys_app_module_be97502597743110302fbbc3f153afa0</sys_update_name>
+        <sys_update_version display_value="sys_app_module_be97502597743110302fbbc3f153afa0">f22c9b2097613110302fbbc3f153af95</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-09-25 03:10:22</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

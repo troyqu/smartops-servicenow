@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message">
+    <sys_rest_message action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <authentication_type>no_authentication</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <description/>
+        <name>opsPocApi</name>
+        <oauth2_profile/>
+        <protocol_name/>
+        <rest_endpoint>https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket</rest_endpoint>
+        <sys_class_name>sys_rest_message</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-21 08:52:21</sys_created_on>
+        <sys_id>46ea94e597743110302fbbc3f153af56</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>opsPocApi</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_rest_message_46ea94e597743110302fbbc3f153af56</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-21 10:26:39</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message>
+</record_update>

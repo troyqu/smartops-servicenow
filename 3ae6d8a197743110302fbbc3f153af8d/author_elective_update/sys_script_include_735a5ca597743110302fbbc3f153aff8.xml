@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1106755_smartops.opsPocMsg</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>opsPocMsg</name>
+        <script><![CDATA[var opsPocMsg = Class.create();
+
+opsPocMsg.prototype = {
+    initialize: function() {},
+	
+	createTicket: function(){
+		
+	},
+	
+	getAuthorization: function(){
+		gs.info("start getAuthorization()...")
+		var sign = new signature();
+		var algorithm = "HMAC-SHA256";
+	// 	var timestamp = requestHandler.getCurrentTimestampMillis();
+		var timestamp = "1692772032";
+		var date = sign.formatTimestampToDate(timestamp);
+		var appKey = "MWQxNzg1YzQtMmRjNS00";
+		var appSecret = "$2a$10$uAc10tFuW8HPkzPodlS/hevZS3QiGDu0L8Q0RI.HCTZXfnhR2Xqfm";
+
+		var url = "https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket";
+		var method = "PUT";
+		var path = "/openapi/tms/tms/ticket/";
+		var body = "{\"title\":\"test_0606_a\",\"type\":\"service\",\"content\":\"<p>test_0606_a</p>\",\"category\":\"advisory\"}";
+		var headers = {"content-type":"application/json; charset=utf-8"};
+
+		var httpRequest = {};
+		httpRequest.url = url;
+		httpRequest.method = method;
+		httpRequest.path = path;
+		httpRequest.body = body;
+		httpRequest.headers = headers;
+	// 	gs.info("path="+httpRequest.path);
+
+		httpRequest.headers['host'] = 'testapi.smartops.anchnet.com';
+		httpRequest.headers['X-Timestamp'] = timestamp;
+		
+		
+		var hashedPayload = sign.sha256Hex(httpRequest.body);	
+		var canonicalRequest = sign.createCanonicalRequest(httpRequest, hashedPayload);
+		gs.info("-------canonicalRequest-------"+canonicalRequest);	
+
+		var hashedCanonicalRequest = sign.sha256Hex(canonicalRequest);
+		var stringToSign = sign.createStringToSign(algorithm, hashedCanonicalRequest, timestamp);
+		gs.info("-------stringToSign-------"+stringToSign);
+
+		var signaturedRequest = sign.computeSignature(stringToSign, appSecret, date);
+		gs.info("-------signature-------"+signaturedRequest);
+
+		var signedHeaders = sign.signedHeaders().join(";");
+		var authorization = sign.buildAuthorizationHeader(algorithm, signedHeaders, signaturedRequest, appKey);
+		gs.info("-------authorization-------"+authorization);
+		return authorization;
+	},
+	
+	type: 'opsPocMsg'
+};	
+
+// function opsPocMsg(ticketObj){
+// 	try { 
+// 		var r = new sn_ws.RESTMessageV2('x_1106755_smartops.opsPocApi', 'POST');
+		
+// 		var ticket_type = "service";
+		
+// 		r.setStringParameterNoEscape('subcategory', ticketObj.subcategory);
+// 		r.setStringParameterNoEscape('short_description', ticketObj.short_description);
+// 		r.setStringParameterNoEscape('category', ticketObj.category);
+// 		r.setStringParameterNoEscape('ticket_type',ticket_type);
+// 		var response = r.execute();
+//         var responseBody = response.haveError() ? response.getErrorMessage() : response.getBody();
+//         var requestBody = r ? r.getRequestBody() : null;
+                
+//         gs.info("requestBody = " + requestBody);
+//         gs.info("responseBody = " + responseBody);
+//         var jsonBody = JSON.parse(responseBody);
+//         gs.info("responseBody message = " + jsonBody.message);
+//         var jsonBodyData = JSON.parse(jsonBody.data);
+//         gs.info("responseBody data = " + jsonBodyData);
+
+// 	}catch(ex) {
+// 		var message = ex.message;
+// 	}                  
+// }]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-21 08:51:54</sys_created_on>
+        <sys_id>735a5ca597743110302fbbc3f153aff8</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>opsPocMsg</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_update_name>sys_script_include_735a5ca597743110302fbbc3f153aff8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:28:45</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</application>
+        <file_path/>
+        <instance_id>aa323c4adba7a8105749cac50596190a</instance_id>
+        <instance_name>dev112116</instance_name>
+        <name>sys_script_include_735a5ca597743110302fbbc3f153aff8</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1106755_smartops.opsPocMsg&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;opsPocMsg&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var opsPocMsg = Class.create();
+
+opsPocMsg.prototype = {
+    initialize: function() {},
+	
+	createTicket: function(){
+		
+	},
+	
+	getAuthorization: function(){
+		gs.info("start getAuthorization()...")
+		var sign = new signature();
+		var algorithm = "HMAC-SHA256";
+	// 	var timestamp = requestHandler.getCurrentTimestampMillis();
+		var timestamp = "1692772032";
+		var date = sign.formatTimestampToDate(timestamp);
+		var appKey = "MWQxNzg1YzQtMmRjNS00";
+		var appSecret = "$2a$10$uAc10tFuW8HPkzPodlS/hevZS3QiGDu0L8Q0RI.HCTZXfnhR2Xqfm";
+
+		var url = "https://testapi.smartops.anchnet.com/openapi/tms/tms/ticket";
+		var method = "PUT";
+		var path = "/openapi/tms/tms/ticket/";
+		var body = "{\"title\":\"test_0606_a\",\"type\":\"service\",\"content\":\"&lt;p&gt;test_0606_a&lt;/p&gt;\",\"category\":\"advisory\"}";
+		var headers = {"content-type":"application/json; charset=utf-8"};
+
+		var httpRequest = {};
+		httpRequest.url = url;
+		httpRequest.method = method;
+		httpRequest.path = path;
+		httpRequest.body = body;
+		httpRequest.headers = headers;
+	// 	gs.info("path="+httpRequest.path);
+
+		httpRequest.headers['host'] = 'testapi.smartops.anchnet.com';
+		httpRequest.headers['X-Timestamp'] = timestamp;
+		
+		
+		var hashedPayload = sign.sha256Hex(httpRequest.body);	
+		var canonicalRequest = sign.createCanonicalRequest(httpRequest, hashedPayload);
+		gs.info("-------canonicalRequest-------"+canonicalRequest);	
+
+		var hashedCanonicalRequest = sign.sha256Hex(canonicalRequest);
+		var stringToSign = sign.createStringToSign(algorithm, hashedCanonicalRequest, timestamp);
+		gs.info("-------stringToSign-------"+stringToSign);
+
+		var signaturedRequest = sign.computeSignature(stringToSign, appSecret, date);
+		gs.info("-------signature-------"+signaturedRequest);
+
+		var signedHeaders = sign.signedHeaders().join(";");
+		var authorization = sign.buildAuthorizationHeader(algorithm, signedHeaders, signaturedRequest, appKey);
+		gs.info("-------authorization-------"+authorization);
+		return authorization;
+	},
+	
+	type: 'opsPocMsg'
+};	
+
+// function opsPocMsg(ticketObj){
+// 	try { 
+// 		var r = new sn_ws.RESTMessageV2('x_1106755_smartops.opsPocApi', 'POST');
+		
+// 		var ticket_type = "service";
+		
+// 		r.setStringParameterNoEscape('subcategory', ticketObj.subcategory);
+// 		r.setStringParameterNoEscape('short_description', ticketObj.short_description);
+// 		r.setStringParameterNoEscape('category', ticketObj.category);
+// 		r.setStringParameterNoEscape('ticket_type',ticket_type);
+// 		var response = r.execute();
+//         var responseBody = response.haveError() ? response.getErrorMessage() : response.getBody();
+//         var requestBody = r ? r.getRequestBody() : null;
+                
+//         gs.info("requestBody = " + requestBody);
+//         gs.info("responseBody = " + responseBody);
+//         var jsonBody = JSON.parse(responseBody);
+//         gs.info("responseBody message = " + jsonBody.message);
+//         var jsonBodyData = JSON.parse(jsonBody.data);
+//         gs.info("responseBody data = " + jsonBodyData);
+
+// 	}catch(ex) {
+// 		var message = ex.message;
+// 	}                  
+// }]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2023-08-21 08:51:54&lt;/sys_created_on&gt;&lt;sys_id&gt;735a5ca597743110302fbbc3f153aff8&lt;/sys_id&gt;&lt;sys_mod_count&gt;5&lt;/sys_mod_count&gt;&lt;sys_name&gt;opsPocMsg&lt;/sys_name&gt;&lt;sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="smartopspoc-scoped"&gt;3ae6d8a197743110302fbbc3f153af8d&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_735a5ca597743110302fbbc3f153aff8&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2023-08-25 07:28:45&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>291068168</payload_hash>
+        <record_name>opsPocMsg</record_name>
+        <reverted_from/>
+        <source>f2e6d8a197743110302fbbc3f153af8f</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-25 07:28:45</sys_created_on>
+        <sys_id>e43e20be97343110302fbbc3f153aff8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18a2b9871070000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:28:45</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>203e20bef4343110bc71450b21d1a8f8</update_guid>
+        <update_guid_history>203e20bef4343110bc71450b21d1a8f8:291068168,2f7de0beeb343110b5997af998fcc29f:584513273,473d243e7d343110fa30f40cf60719b8:-1469540203,c4dc687e3034311009980d881c06dd15:1131036679,8f5e58e58b7431101f9fc0c271e9d7b0:1621511929,f3da5865597431102cd77f624ff94977:-272418064</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-08-25 07:33:16</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>1ecaf8a2a18049e8ae6561306eefc8a4</sys_id>
+        <sys_metadata>735a5ca597743110302fbbc3f153aff8</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>opsPocMsg</sys_name>
+        <sys_package display_value="smartopspoc-scoped" source="x_1106755_smartops">3ae6d8a197743110302fbbc3f153af8d</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="smartopspoc-scoped">3ae6d8a197743110302fbbc3f153af8d</sys_scope>
+        <sys_scope_delete display_value="">826394e5e8de461084e9d5a4e6c40844</sys_scope_delete>
+        <sys_update_name>sys_script_include_735a5ca597743110302fbbc3f153aff8</sys_update_name>
+        <sys_update_version display_value="sys_script_include_735a5ca597743110302fbbc3f153aff8">e43e20be97343110302fbbc3f153aff8</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-08-25 07:33:16</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
